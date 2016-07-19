@@ -7,7 +7,13 @@ import time
 import socket  
 import uuid
 import threading
-import Queue
+
+is_py2 = sys.version[0] == '2'
+if is_py2:
+    import Queue as queue
+else:
+    import queue as queue
+
 from datetime import datetime
 sys.path.append(os.path.abspath("../lib"))
 from util import *
@@ -52,10 +58,10 @@ def sensorReader(id, sensorID, numReading, meanReading, samplingInterval, normMo
 		curTime = int(time.time() * 1000)	
 		readRec = "%s,%d,%d" %(sensorID, curTime, reading)	
 		threadLock.acquire(1) 	  		
-		print readRec
+		print(readRec)
 		threadLock.release()
 		time.sleep(samplingInterval)
-   	exitMutexes[id] = True
+	exitMutexes[id] = True
 		
 		
 def getReading(meanReading, mode):
